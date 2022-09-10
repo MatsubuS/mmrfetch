@@ -18,18 +18,22 @@ def setusername():
     mainupdate()
     
 def setserver():
+    #todo server switching, for now it's set to use EUNE API calls
     pass
 
 def mainupdate():
     try:
+        #headers has to be custom by the request of Whatismymmr API standards
         headers = {
-            'User-Agent': 'Windows:desktopmmrcheck:alpha',
+            'User-Agent': 'Windows:desktopmmrcheck:v1.0',
         }
         global username
+
         text_box.config(state=NORMAL)
         text_box1.config(state=NORMAL)
         text_box.delete('1.0', END)
         text_box1.delete('1.0', END)
+
         page = requests.get("https://eune.whatismymmr.com/api/v1/summoner?name="+username, headers=headers)
         soup = BeautifulSoup(page.content, "html.parser")
         site_json = json.loads(soup.text)        
@@ -37,12 +41,12 @@ def mainupdate():
         err = site_json['ARAM']['err']
         timestamp = site_json['ARAM']['timestamp']
         procent = site_json['ARAM']['percentile']
-        timestamp = site_json['ARAM']['timestamp']
         math = round(100 - procent,2)
         rank = site_json['ARAM']['closestRank']
         dt_object = datetime.fromtimestamp(timestamp)
         timenow = datetime.now()
         math2 = timenow - dt_object
+
         text_box.insert("end-1c", username+"'s mmr on aram is: "+str(aram)+" (+/-"+str(err)+"). top "+str(math)+"% Approximate rank: "+str(rank))
         text_box.config(state=DISABLED)
         if math2.days > 0:
