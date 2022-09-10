@@ -9,4 +9,4 @@
 **Python application using tkinter for its gui and
  BeautifulSoup for parsing html.**
 
-*Version v1.0 (current) supports pulling only from EUNE API*
+*Version v1.0 (current) supports pulling only from [EUNE WhatIsMyMmr API](https://dev.whatismymmr.com/)*
