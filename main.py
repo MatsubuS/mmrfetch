@@ -19,7 +19,6 @@ options = [
     "eune",
     "kr"]
 
-
 def mainupdate():
     try:
         #headers has to be custom by the request of Whatismymmr API standards
