@@ -12,31 +12,41 @@ icon =  "iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAABcOUlEQVR42uy9B2BU15kvfs6
 #setglobal empty username
 username = ""
 
-def setusername():
-    global username
-    username = Usernamebox.get("1.0", "end-1c")
-    mainupdate()
-    
-def setserver():
-    #todo server switching, for now it's set to use EUNE API calls
-    pass
+#server selection options
+options = [
+    "na",
+    "euw",
+    "eune",
+    "kr"]
+
 
 def mainupdate():
     try:
         #headers has to be custom by the request of Whatismymmr API standards
         headers = {
-            'User-Agent': 'Windows:desktopmmrcheck:v1.0',
+            'User-Agent': 'Windows:desktopmmrcheck:v1.1',
         }
+        #check set username
         global username
+        username = Usernamebox.get("1.0", "end-1c")
 
+        #prepare text boxes for text output
         text_box.config(state=NORMAL)
         text_box1.config(state=NORMAL)
         text_box.delete('1.0', END)
         text_box1.delete('1.0', END)
+        
+        #server seelection test, print to console if select_server works correctly
+        #print("https://"+str(select_server.get())+".whatismymmr.com/api/v1/summoner?name="+username)
 
-        page = requests.get("https://eune.whatismymmr.com/api/v1/summoner?name="+username, headers=headers)
+        #pull info from API 
+        page = requests.get("https://"+str(select_server.get())+".whatismymmr.com/api/v1/summoner?name="+username, headers=headers)
         soup = BeautifulSoup(page.content, "html.parser")
+        
+        #load API info as json
         site_json = json.loads(soup.text)        
+
+        #set the rest of variables used in function, pull info from json
         aram = site_json['ARAM']['avg']
         err = site_json['ARAM']['err']
         timestamp = site_json['ARAM']['timestamp']
@@ -47,6 +57,7 @@ def mainupdate():
         timenow = datetime.now()
         math2 = timenow - dt_object
 
+        #do math + output text in textboxes
         text_box.insert("end-1c", username+"'s mmr on aram is: "+str(aram)+" (+/-"+str(err)+"). top "+str(math)+"% Approximate rank: "+str(rank))
         text_box.config(state=DISABLED)
         if math2.days > 0:
@@ -56,12 +67,12 @@ def mainupdate():
             text_box1.insert("end-1c", "Last upated "+str(round(math2 / timedelta(minutes=1)))+" minutes ago")
             text_box1.config(state=DISABLED)
     except KeyError:
-        text_box.insert("end-1c", "there has been some kind of an error... wrong username perhaps?")
+        text_box.insert("end-1c", "  ___ _ __ _ __ ___  _ __ "+'\n'+" / _ \ '__| '__/ _ \| '__|"+'\n'+"|  __/ |  | | | (_) | |   "+'\n'+" \___|_|  |_|  \___/|_|  ")
         text_box.config(state=DISABLED)
         text_box1.insert("end-1c", "Input a valid username.")
         text_box1.config(state=DISABLED)
     except TypeError:
-        text_box.insert("end-1c", "⣠⣾⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀ ⠀⣠⣾⣿⣿⣿⣿⣷⣄" +'\n'+ "⣿⣿⡇⠀⠀⢸⣿⢰⣿⡆⠀⣾⣿⡆⠀⣾⣷⠀ ⣿⣿⡇⠀⠀ ⢸⣿⣿" +'\n'+ "⣿⣿⡇⠀⠀⢸⣿⠘⣿⣿⣤⣿⣿⣿⣤⣿⡇⠀⢻⣿⡇⠀⠀ ⢸⣿⣿" +'\n'+ "⣿⣿⡇⠀⠀⢸⡿⠀⢹⣿⣿⣿⣿⣿⣿⣿⠁⠀⢸⣿⣇⠀⠀ ⢸⣿⣿" +'\n'+ "⠙⢿⣷⣶⣶⡿⠁⠀⠈⣿⣿⠟⠀⣿⣿⠇⠀⠀⠈⠻⣿⣿⣿⣿⡿⠋")
+        text_box.insert("end-1c", "  ___ _ __ _ __ ___  _ __ "+'\n'+" / _ \ '__| '__/ _ \| '__|"+'\n'+"|  __/ |  | | | (_) | |   "+'\n'+" \___|_|  |_|  \___/|_|  ")
         text_box.config(state=DISABLED)
         text_box1.insert("end-1c", "no mmr data for "+str(username))
         text_box1.config(state=DISABLED)
@@ -74,18 +85,32 @@ root.tk.call('wm', 'iconphoto', root._w, img)
 root.resizable(False, False)
 root.configure(bg="#C72C41")
 
+#config text box 1 (bottom)
 text_box = tk.Text(root, width=35, height=4)
 text_box.grid(row=1, column=0, sticky=W, pady=4)
 text_box.config(state=DISABLED, bg="#801336", fg="white")
 
+#config text box 2 (bottom)
 text_box1 = tk.Text(root, width=35, height=1)
 text_box1.grid(row=2, column=0, sticky=W, pady=4)
 text_box1.config(state=DISABLED, bg="#801336", fg="white")
 
-Button(root, text='check mmr', command=setusername, bg="#C72C41", fg="white").grid(row=3, column=0, sticky=W, pady=1)
+#button to run mainupdate()
+Button(root, text='check mmr', command=mainupdate, bg="#C72C41", fg="white", width="10", height="2").grid(row=4, column=0, sticky=EW, padx=4, pady=1)
 
-Usernamebox = tk.Text(root, width=15, height=1)
-Usernamebox.grid(row=3,column=0,sticky=SE,pady=4,padx=4)
+#server menu
+select_server = StringVar(root)
+select_server.set(options[0])
+
+#config dropdown(server) menu
+selector = OptionMenu(root, select_server, *options)
+selector.grid(row=3,column=0,sticky=W,pady=4,padx=6)
+selector.config(width="3", height="1")
+selector.config(bg="#801336", fg="white")
+
+#config usernamebox
+Usernamebox = tk.Text(root, width="13", height="1")
+Usernamebox.grid(row=3,column=0,sticky=S,pady=4,padx=3)
 Usernamebox.insert(INSERT, "Username Here")
 Usernamebox.config(bg="#801336", fg="white")
 
