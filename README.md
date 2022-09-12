@@ -9,4 +9,8 @@
 **Python application using [Tkinter](https://docs.python.org/3/library/tk.html) for its gui and
  [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) for parsing html.**
 
-*Version v1.0 (current) supports pulling only from [EUNE WhatIsMyMmr API](https://dev.whatismymmr.com/)*
+** **
+
+*Version v1.1 (current) supports pulling from any [WhatIsMyMmr API](https://dev.whatismymmr.com/) (kr, na, euw, eune), has a server selector menu*
+
+*Version v1.0 (old) supports pulling only from EUNE [WhatIsMyMmr API](https://dev.whatismymmr.com/)*
