@@ -11,6 +11,6 @@
 
 ** **
 
-*Version v1.1 (current) supports pulling from any [WhatIsMyMmr API](https://dev.whatismymmr.com/) (kr, na, euw, eune), has a server selector menu* [executable Release](https://github.com/MatsubuS/mmrfetch/releases/tag/v1.1)
+*Version v1.1 (current) supports pulling ARAM data from any available server in [WhatIsMyMmr API](https://dev.whatismymmr.com/) (kr, na, euw, eune), has a server selector menu,* [executable Release](https://github.com/MatsubuS/mmrfetch/releases/tag/v1.1)
 
-*Version v1.0 (old) supports pulling only from EUNE [WhatIsMyMmr API](https://dev.whatismymmr.com/)*
+*Version v1.0 (old) supports pulling ARAM data only from EUNE [WhatIsMyMmr API](https://dev.whatismymmr.com/)*
