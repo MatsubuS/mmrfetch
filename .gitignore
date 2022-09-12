@@ -3,7 +3,18 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+######
+
+
+#Own files to ignore
 .claudiaide
+build/
+dist/
+icon.ico
+mmrfetch.spec
+version.txt
+
+######
 
 # User-specific files
 *.rsuser
