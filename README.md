@@ -6,6 +6,8 @@
 /_/  /_/_/  /_/_/ |_|  /_/   /_____/ /_/  \____/_/ /_/   
 ```                                                         
 
+** "WHATISMYMMR" WEBSITE IS TAKEN DOWN, MMRFETCH WILL NOT WORK ANYMORE **
+
 **Python application using [Tkinter](https://docs.python.org/3/library/tk.html) for its gui and
  [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) for parsing html.**
 
